@@ -1,8 +1,12 @@
+var request = require('request');
 var fs = require('fs');
 var program = require('commander');
 var cheerio = require('cheerio');
+
 var HTMLFILE_DEFAULT = "index.html";
 var CHECKSFILE_DEFAULT = "checks.json";
+var URL_DEFAULT = 'http://thawing-peak-6897.herokuapp.com';
+
 
 var assertFileExists = function(infile){
     var instr = infile.toString();
@@ -12,6 +16,19 @@ var assertFileExists = function(infile){
      }
     return instr;
 };
+
+
+var assertUrl = function(url){
+    var path = url.toString();
+ 
+   request(path, function(err, res, body){
+	if(!err){
+            return path;       
+        }
+        else console.log(err);
+    });
+  
+ };
 
 var cheerioHtmlFile = function(htmlfile){
     return cheerio.load(fs.readFileSync(htmlfile));
@@ -38,11 +55,29 @@ var clone = function(fn){
 };
 
 if(require.main == module){
-    program.option('-c, --checks <check_file>', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT).option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT).parse(process.argv);
-
-    var checkJson = checkHtmlFile(program.file, program.checks);
-    var outJson = JSON.stringify(checkJson, null, 4);
-    console.log(outJson); 
+    program.option('-c, --checks <check_file>', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT).option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT).option('-u, --url <page_url>','Path to page').parse(process.argv);
+    
+    process.argv.forEach(function(val){
+	if(val === '--file'){
+            var checkJson = checkHtmlFile(program.file, program.checks);
+            var outJson = JSON.stringify(checkJson, null, 4);
+            console.log(outJson);           
+         }
+       if(val === '--url'){
+          
+            request(program.url, function(err, res, body){
+		if(!err){
+                     fs.writeFileSync('downloaded.html', body);
+                      program.file = "downloaded.html";                      
+                      var checkJson = checkHtmlFile(program.file, program.checks);
+                      var outJson = JSON.stringify(checkJson, null, 4);
+                      console.log(outJson);
+                }
+                else console.log(err); });       
+                     
+         }});
+  
+     
 }else{
     exports.checkHtmlFile = checkHtmlFile;
 }
