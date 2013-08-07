@@ -10,7 +10,7 @@ app.get('/', function(request, response) {
 
 function getContent(){
     var c  = fs.readFileSync('./index.html', "utf8");
-    console.log(c);
+  //  console.log(c);
     return c;
 }
 
