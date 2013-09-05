@@ -5,7 +5,7 @@ var fs = require('fs');
 //var app = express.createServer(express.logger());
 var app = express();
 
-app.set('port', process.env.PORT ||8080);
+//app.set('port', process.env.PORT || 8080);
 
 app.get('/', function(request, response) {       
     response.send(getContent());
@@ -21,6 +21,8 @@ app.get('/orders', function(req, res){
    // todo
  });
 
-app.listen(app.get('port'), function() {
-  console.log("Listening on " + app.get('port'));
+var port = process.env.PORT || 8080;
+
+app.listen(port, function() {
+  console.log("Listening on " + port);
 });
