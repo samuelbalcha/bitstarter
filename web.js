@@ -1,14 +1,10 @@
-var async = require('async');
 var express = require('express');
 var fs = require('fs');
-var http = require('http');
-var https = require('https');
-//var db = require('./models');
 
-var app = express.createServer(express.logger());
-//var app = express();
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+
+//var app = express.createServer(express.logger());
+var app = express();
+
 app.set('port', process.env.PORT ||8080);
 
 app.get('/', function(request, response) {       
@@ -22,7 +18,7 @@ function getContent(){
 }
 
 app.get('/orders', function(req, res){
-
+   // todo
  });
 
 app.listen(app.get('port'), function() {
