@@ -5,8 +5,8 @@ var http = require('http');
 var https = require('https');
 //var db = require('./models');
 
-//var app = express.createServer(express.logger());
-var app = express();
+var app = express.createServer(express.logger());
+//var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT ||8080);
