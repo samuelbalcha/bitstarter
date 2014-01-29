@@ -1,3 +1,5 @@
-node-js-sample
+NodeJs powered fundraising site.. 
 ==============
-Forked for startup eng course in coursera!
+Forked for startup engineering course in coursera!
+
+http://crowdpowerafrica.herokuapp.com/#contact
